@@ -1,9 +1,9 @@
 #include <iostream>
-using namespace std;
-
+#include <chrono>
 #include <Windows.h>
 #include <math.h>
 
+using namespace std;
 int screenWidth = 120;
 int screenHeight = 40;
 
@@ -45,9 +45,25 @@ int main()
     map += L"#..............#";
     map += L"################";
 
+
+  auto tp1 = chrono::system_clock::now();
+  auto tp2 = chrono::system_clock::now();
     // Main game loop
     while (1)
     {
+
+    tp2 = chrono::system_clock::now();
+    chrono::duration<float> elapsedTime = tp2 - tp1;
+    tp1 = tp2;
+    float fElapsedTime = elapsedTime.count();
+
+    //Controls
+    //CCW-Rotation
+    if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
+      fPlayerA -= (0.1f) * fElapsedTime;
+    if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
+      fPlayerA += (0.1f) * fElapsedTime;
+
         // For each column of the screen
         for (int x = 0; x < screenWidth; x++)
         {
